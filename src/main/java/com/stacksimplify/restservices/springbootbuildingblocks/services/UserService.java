@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.stacksimplify.restservices.springbootbuildingblocks.entities.User;
 import com.stacksimplify.restservices.springbootbuildingblocks.exceptions.UserExistException;
+import com.stacksimplify.restservices.springbootbuildingblocks.exceptions.UserNameNotFoundException;
 import com.stacksimplify.restservices.springbootbuildingblocks.exceptions.UserNotFoundException;
 import com.stacksimplify.restservices.springbootbuildingblocks.repositeries.UserRepository;
 
@@ -20,8 +21,8 @@ public class UserService {
 	}
 
 	public User createUser(User user) throws UserExistException {
-		User existingUser=userRepository.findByUserName(user.getUserName());
-		if(existingUser!=null) {
+		User existingUser = userRepository.findByUserName(user.getUserName());
+		if (existingUser != null) {
 			throw new UserExistException("User already exist in repository");
 		}
 		return userRepository.save(user);
@@ -52,7 +53,7 @@ public class UserService {
 		userRepository.deleteById(id);
 	}
 
-	public User getUserByUserName(String username) {
+	public User getUserByUserName(String username) throws UserNameNotFoundException {
 		return userRepository.findByUserName(username);
 	}
 }
