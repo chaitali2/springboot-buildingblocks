@@ -43,18 +43,19 @@ public class UserHateoasController {
 	private UserService userService;
 
 	@GetMapping
-	public ResponseEntity<List<User>> getAllUsers() throws UserNotFoundException{
+	public CollectionModel<User> getAllUsers() throws UserNotFoundException {
 		List<User> allusers = userService.getAllUsers();
-		for(User user:allusers) {
-			Long userid=user.getId();
-			//with self link
+		for (User user : allusers) {
+			Long userid = user.getId();
+			// with self link
 			user.add(linkTo(methodOn(UserHateoasController.class).getUserById(userid)).withSelfRel());
-			//realtionship with orders
+			// realtionship with orders
 			user.add(linkTo(methodOn(OrderHateoasController.class).getAllOrders(userid)).withRel("all-orders"));
 		}
-//		Link selflink=linkTo(methodOn(UserHateoasController.class).getAllUsers()).withSelfRel();
-
-		return new ResponseEntity<>(allusers, HttpStatus.OK);
+		Link selflink = linkTo(methodOn(UserHateoasController.class).getAllUsers()).withSelfRel();
+		CollectionModel<User> result = new CollectionModel<>(allusers, selflink);
+		return result;
+//		return new ResponseEntity<>(allusers, HttpStatus.OK);
 
 	}
 
