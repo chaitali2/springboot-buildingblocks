@@ -55,6 +55,7 @@ public class UserHateoasController {
 		Link selflink = linkTo(methodOn(UserHateoasController.class).getAllUsers()).withSelfRel();
 		CollectionModel<User> result = new CollectionModel<>(allusers, selflink);
 		return result;
+		
 //		return new ResponseEntity<>(allusers, HttpStatus.OK);
 
 	}
